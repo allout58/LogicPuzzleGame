@@ -33,5 +33,21 @@ namespace LogicPuzzleGame.Model
             this.entranceTank = input;
             this.exitTank = output;
         }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+            
+            return entranceTank.Equals(((Pipe)obj).entranceTank) && exitTank.Equals(((Pipe)obj).exitTank);
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

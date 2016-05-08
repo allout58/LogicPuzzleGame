@@ -5,7 +5,7 @@ using LogicPuzzleGame.Model;
 namespace LogicPuzzleGameTestProject
 {
     [TestClass]
-    public class OveralTests
+    public class OveralModelTests
     {
         [TestMethod]
         public void NoMiddle()
@@ -74,5 +74,11 @@ namespace LogicPuzzleGameTestProject
 
             Assert.IsTrue(endTank.IsDirty);
         }
+    }
+
+    [TestClass]
+    public class OveralControllerTest
+    {
+
     }
 }

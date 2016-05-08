@@ -21,6 +21,14 @@ namespace LogicPuzzleGame.Model
             }
         }
 
+        public Pipe[] Inputs
+        {
+            get
+            {
+                return inputs.ToArray();
+            }
+        }
+
         private List<Pipe> inputs = new List<Pipe>();
 //        private List<Pipe> outputs = new List<Pipe>();
 
@@ -37,7 +45,6 @@ namespace LogicPuzzleGame.Model
                 isDirty |= p.isDirty;
             }
         }
-
 
     }
 }
