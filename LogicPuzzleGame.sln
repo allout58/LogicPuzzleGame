@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicPuzzleGame", "LogicPuzzleGame.csproj", "{38EFB992-98E0-4BF0-9301-5D898235C49A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicPuzzleGame", "LogicPuzzleGame\LogicPuzzleGame.csproj", "{38EFB992-98E0-4BF0-9301-5D898235C49A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicPuzzleGameTestProject", "..\LogicPuzzleGameTestProject\LogicPuzzleGameTestProject.csproj", "{4D9DAAED-EB66-4CD9-AD56-D3B4115BB895}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicPuzzleGameTestProject", "LogicPuzzleGameTestProject\LogicPuzzleGameTestProject.csproj", "{4D9DAAED-EB66-4CD9-AD56-D3B4115BB895}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

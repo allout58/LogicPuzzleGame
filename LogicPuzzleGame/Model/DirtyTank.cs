@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace LogicPuzzleGame.Model
 {
-    public class DirtyTank: Tank
+    public class DirtyTank : Tank
     {
-        public DirtyTank()
-        {
+        public DirtyTank() {
             isDirty = true;
             hasUpdated = true;
         }
 
-        public new void Update()
-        {
+        public new void Update() {
 
+        }
+
+        public override string ToString() {
+            return "Dirty" + base.ToString();
         }
     }
 }

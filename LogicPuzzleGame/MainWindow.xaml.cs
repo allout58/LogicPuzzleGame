@@ -1,5 +1,6 @@
 ﻿using LogicPuzzleGame.Controller;
 using LogicPuzzleGame.Model;
+using LogicPuzzleGame.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,32 +23,26 @@ namespace LogicPuzzleGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        public GameBoard board
-        {
-            get;
-            set;
-        }
+        public GameBoard board { get; set; }
 
-        public MainWindow()
-        {
+        public MainWindow() {
             board = new GameBoard(3, 3);
             board.GenerateBoard();
             InitializeComponent();
-            
+
         }
 
-        Button[][] btns = new Button[3][];
+        private TankControl[][] btns = new TankControl[3][];
 
-        private void RenderGameBoard()
-        {
-            GridLength width = new GridLength(100 / (board.Width + 2), GridUnitType.Star);
-            GridLength height = new GridLength(100 / board.Height, GridUnitType.Star);
+        private void RenderGameBoard() {
+            GridLength width = new GridLength(100 / ((double) board.Width + 2), GridUnitType.Star);
+            GridLength height = new GridLength(100 / (double) board.Height, GridUnitType.Star);
             for (int i = 0; i < board.Height; i++) {
                 RowDefinition rd = new RowDefinition();
                 rd.Height = height;
                 MainGrid.RowDefinitions.Add(rd);
 
-                btns[i] = new Button[5];
+                btns[i] = new TankControl[5];
             }
             for (int j = 0; j < board.Width + 2; j++) {
                 ColumnDefinition cd = new ColumnDefinition();
@@ -57,30 +52,89 @@ namespace LogicPuzzleGame
 
             for (int i = 0; i < board.Height; i++) {
                 for (int j = 0; j < board.Width + 2; j++) {
-                    Button btn = new Button();
+                    TankControl btn = new TankControl();
                     btns[i][j] = btn;
                     Tank t = board[i][j];
+                    btn.Tank = t;
                     btn.Content = "Tank (" + i + ", " + j + ") " + (t.IsDirty ? "Dirty" : "Clean");
-                    btn.Margin = new Thickness(10);
+                    btn.Margin = new Thickness(20);
                     btn.SetValue(Grid.ColumnProperty, j);
                     btn.SetValue(Grid.RowProperty, i);
+                    btn.Click += TankClicked;
                     MainGrid.Children.Add(btn);
                 }
             }
 
             for (int i = 0; i < board.Height; i++) {
-                for (int j = 0; j < board.Width + 2; j++) {
-                    Button btn = btns[i][j];
-                    Tank t = board[i][j];
-                    
+                for (int j = 1; j < board.Width + 2; j++) {
+                    TankControl btn = btns[i][j];
+                    foreach (Pipe pipe in btn.Tank.Inputs) {
+                        for (int k = 0; k < board.Height; k++) {
+                            TankControl other = btns[k][j - 1];
+                            if (other.Tank == pipe.entranceTank) {
+                                PipeControl edge = new PipeControl();
+
+                                edge.Pipe = pipe;
+
+                                edge.SetBinding(PipeControl.SourceProperty, new Binding {
+                                    Source = other,
+                                    Path = new PropertyPath("AnchorPointRight")
+                                });
+                                edge.SetBinding(PipeControl.DestinationProperty, new Binding {
+                                    Source = btn,
+                                    Path = new PropertyPath("AnchorPointLeft")
+                                });
+
+                                edge.SetValue(Grid.ColumnSpanProperty, board.Width+2);
+                                edge.SetValue(Grid.RowSpanProperty, board.Height);
+
+                                edge.Brush = Brushes.Black;
+                                edge.StrokeThickness = 3;
+
+                                edge.MouseDown += PipeClick;
+                                edge.MouseEnter += PipeEnter;
+                                edge.MouseLeave += PipeLeave;
+
+                                MainGrid.Children.Add(edge);
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void PipeEnter(object sender, MouseEventArgs mouseEventArgs)
         {
+            PipeControl pipe = sender as PipeControl;
+            pipe.StrokeThickness = 5;
+        }
+
+        private void PipeLeave(object sender, MouseEventArgs mouseEventArgs)
+        {
+            PipeControl pipe = sender as PipeControl;
+            pipe.StrokeThickness = 3;
+        }
+
+        private void PipeClick(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            PipeControl pipe = sender as PipeControl;
+            pipe.Brush = pipe.Pipe.isDirty?Brushes.Red:Brushes.Blue;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
             board.Print();
             RenderGameBoard();
+        }
+
+        private void TankClicked(object sender, RoutedEventArgs e) {
+            TankControl tank = sender as TankControl;
+            Console.WriteLine("Tank Inputs");
+            foreach (Pipe pipe in tank.Tank.Inputs) {
+                Console.WriteLine(pipe);
+            }
+            Console.WriteLine("");
+
+            Console.Write("Anchor point: {0} and {1}", tank.AnchorPointLeft, tank.AnchorPointRight);
         }
     }
 }

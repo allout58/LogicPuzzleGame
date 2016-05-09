@@ -11,40 +11,45 @@ namespace LogicPuzzleGame.Model
         protected bool hasUpdated = false;
         protected bool isDirty = false;
 
-        public bool IsDirty
-        {
-            get
-            {
+        public int X {
+            get; set;
+        }
+
+        public int Y {
+            get; set;
+        }
+
+        public bool IsDirty {
+            get {
                 if (!hasUpdated)
                     this.Update();
                 return this.isDirty;
             }
         }
 
-        public Pipe[] Inputs
-        {
-            get
-            {
+        public Pipe[] Inputs {
+            get {
                 return inputs.ToArray();
             }
         }
 
         private List<Pipe> inputs = new List<Pipe>();
-//        private List<Pipe> outputs = new List<Pipe>();
+        //        private List<Pipe> outputs = new List<Pipe>();
 
-        public void ConnectTo(Tank t)
-        {
+        public void ConnectTo(Tank t) {
             Pipe p = new Pipe(t, this);
-//            outputs.Add(p);
+            //            outputs.Add(p);
             inputs.Add(p);
         }
 
-        public void Update()
-        {
+        public void Update() {
             foreach (Pipe p in inputs) {
                 isDirty |= p.isDirty;
             }
         }
 
+        public override string ToString() {
+            return "Tank(" + X + "," + Y + ")";
+        }
     }
 }
