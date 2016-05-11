@@ -134,7 +134,13 @@ namespace LogicPuzzleGame
             }
             Console.WriteLine("");
 
-            Console.Write("Anchor point: {0} and {1}", tank.AnchorPointLeft, tank.AnchorPointRight);
+            Console.WriteLine("Tank Ouputs");
+            foreach (Pipe pipe in tank.Tank.Outputs) {
+                Console.WriteLine(pipe);
+            }
+            Console.WriteLine("");
+
+            Console.WriteLine("Anchor point: {0} and {1}", tank.AnchorPointLeft, tank.AnchorPointRight);
         }
     }
 }

@@ -18,6 +18,10 @@ namespace LogicPuzzleGame.Controller
             set;
         }
 
+        public int RandomSeed {
+            get; set;
+        }
+
         Tank[][] board;
         public GameBoard(int width, int height) {
             this.Width = width;
@@ -28,9 +32,10 @@ namespace LogicPuzzleGame.Controller
 
         public void GenerateBoard() {
             bool hasDirty = false;
-            Random rng = new Random();
+            Random rng = new Random(this.RandomSeed);
             HashSet<Pipe> pipes = new HashSet<Pipe>();
 
+            //Generate the layout of the tanks, including the source and drain tanks
             for (int i = 0; i < Height; i++) {
                 board[i] = new Tank[Width + 2];
                 board[i][0] = new SourceTank { X = i, Y = 0 };
@@ -44,8 +49,10 @@ namespace LogicPuzzleGame.Controller
                         board[i][j] = new Tank { X = i, Y = j };
                     }
                 }
-                board[i][Width + 1] = new Tank { X = i, Y = Width +1 }; //End tank
+                board[i][Width + 1] = new Tank { X = i, Y = Width + 1 }; //End tank
             }
+
+            //Generate the pipes from each tank
             for (int i = 0; i < Height; i++) {
                 for (int j = 1; j < Width + 2; j++) {
                     //Generate the connections between pipes
@@ -60,6 +67,17 @@ namespace LogicPuzzleGame.Controller
                         pipes.Add(p);
 
                         p.exitTank.ConnectTo(p.entranceTank);
+                    }
+                }
+            }
+
+            //Ensure every tank (except sinks) has an output
+            for (int i = 0; i < Width; i++) {
+                for (int j = 0; j < Width + 1; j++) {
+                    if (board[i][j].Outputs.Length == 0) {
+                        int row = rng.Next(Utilities.BoundedInt(i - 1, 0, Height), Utilities.BoundedInt(i + 1, 0, Height));
+                        board[row][j + 1].ConnectTo(board[i][j]);
+
                     }
                 }
             }

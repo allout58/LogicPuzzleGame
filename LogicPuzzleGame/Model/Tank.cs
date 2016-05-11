@@ -33,12 +33,16 @@ namespace LogicPuzzleGame.Model
             }
         }
 
+        public Pipe[] Outputs {
+            get { return outputs.ToArray(); }
+        }
+
         private List<Pipe> inputs = new List<Pipe>();
-        //        private List<Pipe> outputs = new List<Pipe>();
+        private List<Pipe> outputs = new List<Pipe>();
 
         public void ConnectTo(Tank t) {
             Pipe p = new Pipe(t, this);
-            //            outputs.Add(p);
+            t.outputs.Add(p);
             inputs.Add(p);
         }
 
