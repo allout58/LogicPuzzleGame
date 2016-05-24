@@ -6,7 +6,15 @@
         xmlns:local="clr-namespace:LogicPuzzleGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
-    <Grid Name="MainGrid">
+    <Grid>
+        <Menu x:Name="menu" Height="19" VerticalAlignment="Top">
+            <MenuItem Header="_File"/>
+            <MenuItem Header="_Game">
+                <MenuItem x:Name="StartNewMI" Header="Start _New" Click="StartNewMI_Click"/>
+            </MenuItem>
+        </Menu>
+        <Grid Margin="0,24,0,0"  Name="MainGrid">
+        </Grid>
 
     </Grid>
 </Window>

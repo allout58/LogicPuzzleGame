@@ -24,6 +24,8 @@ namespace LogicPuzzleGame.View
 
         public TankControl() {
             LayoutUpdated += OnLayoutUpdated;
+            this.MinHeight = 30;
+            this.MinWidth = 30;
         }
 
         private void OnLayoutUpdated(object sender, EventArgs eventArgs) {
@@ -31,8 +33,10 @@ namespace LogicPuzzleGame.View
             Point ofsL = new Point(0, size.Height / 2);
             Point ofsR = new Point(size.Width, size.Height / 2);
             Visual v = this.Parent as Visual;
-            AnchorPointLeft = TransformToVisual(v).Transform(ofsL);
-            AnchorPointRight = TransformToVisual(v).Transform(ofsR);
+            if (v != null) {
+                AnchorPointLeft = TransformToVisual(v).Transform(ofsL);
+                AnchorPointRight = TransformToVisual(v).Transform(ofsR);
+            }
         }
     }
 }

@@ -35,6 +35,10 @@ namespace LogicPuzzleGame
         private TankControl[][] btns = new TankControl[3][];
 
         private void RenderGameBoard() {
+            MainGrid.RowDefinitions.Clear();
+            MainGrid.ColumnDefinitions.Clear();
+            MainGrid.Children.Clear();
+
             GridLength width = new GridLength(100 / ((double) board.Width + 2), GridUnitType.Star);
             GridLength height = new GridLength(100 / (double) board.Height, GridUnitType.Star);
             for (int i = 0; i < board.Height; i++) {
@@ -141,6 +145,15 @@ namespace LogicPuzzleGame
             Console.WriteLine("");
 
             Console.WriteLine("Anchor point: {0} and {1}", tank.AnchorPointLeft, tank.AnchorPointRight);
+        }
+
+        private void StartNewMI_Click(object sender, RoutedEventArgs e)
+        {
+            this.board.Width = 3;
+            this.board.Height = 3;
+            this.board.RandomSeed = (Int32)(DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            this.board.GenerateBoard();
+            RenderGameBoard();
         }
     }
 }
