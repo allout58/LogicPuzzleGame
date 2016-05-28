@@ -6,15 +6,28 @@
         xmlns:local="clr-namespace:LogicPuzzleGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+       TargetType="TextBlock"
+       x:Key="TopText">
+            <Setter Property="DockPanel.Dock" Value="Right"/>
+            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <Menu x:Name="menu" Height="19" VerticalAlignment="Top">
-            <MenuItem Header="_File"/>
-            <MenuItem Header="_Game">
-                <MenuItem x:Name="StartNewMI" Header="Start _New" Click="StartNewMI_Click"/>
-            </MenuItem>
-        </Menu>
-        <Grid Margin="0,24,0,0"  Name="MainGrid">
+
+        <Grid Margin="0,35,0,0"  Name="MainGrid">
         </Grid>
+        <DockPanel Height="35" VerticalAlignment="Top">
+            <TextBlock x:Name="TxtBlockScore" Text="Score: 0" Style="{StaticResource TopText}"/>
+            <TextBlock x:Name="TxtBlockLowScore" Text="Low Score: 0 (JTH)" Style="{StaticResource TopText}" />
+            <TextBlock x:Name="TxtBlockSeed" Text="Seed: 1234" Style="{StaticResource TopText}" />
+            <Button x:Name="btnNewTame" Content="New Game" VerticalAlignment="Center" HorizontalAlignment="Left" DockPanel.Dock="Left" Padding="10,5" Margin="10,0,0,0"/>
+
+        </DockPanel>
 
     </Grid>
 </Window>

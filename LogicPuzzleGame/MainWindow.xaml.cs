@@ -23,11 +23,11 @@ namespace LogicPuzzleGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        public GameBoard board { get; set; }
+        public GameBoard Board { get; set; }
 
         public MainWindow() {
-            board = new GameBoard(3, 3);
-            board.GenerateBoard();
+            Board = new GameBoard(3, 3);
+            Board.GenerateBoard();
             InitializeComponent();
 
         }
@@ -39,26 +39,26 @@ namespace LogicPuzzleGame
             MainGrid.ColumnDefinitions.Clear();
             MainGrid.Children.Clear();
 
-            GridLength width = new GridLength(100 / ((double) board.Width + 2), GridUnitType.Star);
-            GridLength height = new GridLength(100 / (double) board.Height, GridUnitType.Star);
-            for (int i = 0; i < board.Height; i++) {
+            GridLength width = new GridLength(100 / ((double) Board.Width + 2), GridUnitType.Star);
+            GridLength height = new GridLength(100 / (double) Board.Height, GridUnitType.Star);
+            for (int i = 0; i < Board.Height; i++) {
                 RowDefinition rd = new RowDefinition();
                 rd.Height = height;
                 MainGrid.RowDefinitions.Add(rd);
 
                 btns[i] = new TankControl[5];
             }
-            for (int j = 0; j < board.Width + 2; j++) {
+            for (int j = 0; j < Board.Width + 2; j++) {
                 ColumnDefinition cd = new ColumnDefinition();
                 cd.Width = width;
                 MainGrid.ColumnDefinitions.Add(cd);
             }
 
-            for (int i = 0; i < board.Height; i++) {
-                for (int j = 0; j < board.Width + 2; j++) {
+            for (int i = 0; i < Board.Height; i++) {
+                for (int j = 0; j < Board.Width + 2; j++) {
                     TankControl btn = new TankControl();
                     btns[i][j] = btn;
-                    Tank t = board[i][j];
+                    Tank t = Board[i][j];
                     btn.Tank = t;
                     btn.Content = "Tank (" + i + ", " + j + ") " + (t.IsDirty ? "Dirty" : "Clean");
                     btn.Margin = new Thickness(20);
@@ -69,11 +69,11 @@ namespace LogicPuzzleGame
                 }
             }
 
-            for (int i = 0; i < board.Height; i++) {
-                for (int j = 1; j < board.Width + 2; j++) {
+            for (int i = 0; i < Board.Height; i++) {
+                for (int j = 1; j < Board.Width + 2; j++) {
                     TankControl btn = btns[i][j];
                     foreach (Pipe pipe in btn.Tank.Inputs) {
-                        for (int k = 0; k < board.Height; k++) {
+                        for (int k = 0; k < Board.Height; k++) {
                             TankControl other = btns[k][j - 1];
                             if (other.Tank == pipe.entranceTank) {
                                 PipeControl edge = new PipeControl();
@@ -89,8 +89,8 @@ namespace LogicPuzzleGame
                                     Path = new PropertyPath("AnchorPointLeft")
                                 });
 
-                                edge.SetValue(Grid.ColumnSpanProperty, board.Width+2);
-                                edge.SetValue(Grid.RowSpanProperty, board.Height);
+                                edge.SetValue(Grid.ColumnSpanProperty, Board.Width + 2);
+                                edge.SetValue(Grid.RowSpanProperty, Board.Height);
 
                                 edge.Brush = Brushes.Black;
                                 edge.StrokeThickness = 3;
@@ -107,26 +107,23 @@ namespace LogicPuzzleGame
             }
         }
 
-        private void PipeEnter(object sender, MouseEventArgs mouseEventArgs)
-        {
+        private void PipeEnter(object sender, MouseEventArgs mouseEventArgs) {
             PipeControl pipe = sender as PipeControl;
             pipe.StrokeThickness = 5;
         }
 
-        private void PipeLeave(object sender, MouseEventArgs mouseEventArgs)
-        {
+        private void PipeLeave(object sender, MouseEventArgs mouseEventArgs) {
             PipeControl pipe = sender as PipeControl;
             pipe.StrokeThickness = 3;
         }
 
-        private void PipeClick(object sender, MouseButtonEventArgs mouseButtonEventArgs)
-        {
+        private void PipeClick(object sender, MouseButtonEventArgs mouseButtonEventArgs) {
             PipeControl pipe = sender as PipeControl;
-            pipe.Brush = pipe.Pipe.isDirty?Brushes.Red:Brushes.Blue;
+            pipe.Brush = pipe.Pipe.isDirty ? Brushes.Red : Brushes.Blue;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
-            board.Print();
+            Board.Print();
             RenderGameBoard();
         }
 
@@ -147,12 +144,11 @@ namespace LogicPuzzleGame
             Console.WriteLine("Anchor point: {0} and {1}", tank.AnchorPointLeft, tank.AnchorPointRight);
         }
 
-        private void StartNewMI_Click(object sender, RoutedEventArgs e)
-        {
-            this.board.Width = 3;
-            this.board.Height = 3;
-            this.board.RandomSeed = (Int32)(DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            this.board.GenerateBoard();
+        private void StartNewMI_Click(object sender, RoutedEventArgs e) {
+            this.Board.Width = 3;
+            this.Board.Height = 3;
+            this.Board.RandomSeed = (Int32) (DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            this.Board.GenerateBoard();
             RenderGameBoard();
         }
     }
