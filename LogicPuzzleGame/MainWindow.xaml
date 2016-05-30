@@ -25,7 +25,7 @@
             <TextBlock x:Name="TxtBlockScore" Text="Score: 0" Style="{StaticResource TopText}"/>
             <TextBlock x:Name="TxtBlockLowScore" Text="Low Score: 0 (JTH)" Style="{StaticResource TopText}" />
             <TextBlock x:Name="TxtBlockSeed" Text="Seed: 1234" Style="{StaticResource TopText}" />
-            <Button x:Name="btnNewTame" Content="New Game" VerticalAlignment="Center" HorizontalAlignment="Left" DockPanel.Dock="Left" Padding="10,5" Margin="10,0,0,0"/>
+            <Button x:Name="btnNewTame" Content="New Game" VerticalAlignment="Center" HorizontalAlignment="Left" DockPanel.Dock="Left" Padding="10,5" Margin="10,0,0,0" Click="btnNewTame_Click"/>
 
         </DockPanel>
 

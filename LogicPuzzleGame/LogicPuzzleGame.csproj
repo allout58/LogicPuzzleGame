@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\GameController.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="View\PipeControl.cs" />
     <Compile Include="View\TankControl.cs" />

@@ -39,6 +39,8 @@ namespace LogicPuzzleGame
             MainGrid.ColumnDefinitions.Clear();
             MainGrid.Children.Clear();
 
+            btns = new TankControl[Board.Height][];
+
             GridLength width = new GridLength(100 / ((double) Board.Width + 2), GridUnitType.Star);
             GridLength height = new GridLength(100 / (double) Board.Height, GridUnitType.Star);
             for (int i = 0; i < Board.Height; i++) {
@@ -46,7 +48,7 @@ namespace LogicPuzzleGame
                 rd.Height = height;
                 MainGrid.RowDefinitions.Add(rd);
 
-                btns[i] = new TankControl[5];
+                btns[i] = new TankControl[Board.Width + 2];
             }
             for (int j = 0; j < Board.Width + 2; j++) {
                 ColumnDefinition cd = new ColumnDefinition();
@@ -97,9 +99,8 @@ namespace LogicPuzzleGame
                                 edge.Brush = Brushes.Black;
                                 edge.StrokeThickness = 3;
 
-                                edge.MouseDown += PipeClick;
-                                edge.MouseEnter += PipeEnter;
-                                edge.MouseLeave += PipeLeave;
+                                edge.Click += EdgeOnClick;
+
 
                                 MainGrid.Children.Add(edge);
                             }
@@ -109,19 +110,9 @@ namespace LogicPuzzleGame
             }
         }
 
-        private void PipeEnter(object sender, MouseEventArgs mouseEventArgs) {
-            PipeControl pipe = sender as PipeControl;
-            pipe.StrokeThickness = 5;
-        }
-
-        private void PipeLeave(object sender, MouseEventArgs mouseEventArgs) {
-            PipeControl pipe = sender as PipeControl;
-            pipe.StrokeThickness = 3;
-        }
-
-        private void PipeClick(object sender, MouseButtonEventArgs mouseButtonEventArgs) {
-            PipeControl pipe = sender as PipeControl;
-            pipe.Brush = pipe.Pipe.isDirty ? Brushes.Red : Brushes.Blue;
+        private void EdgeOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            Console.WriteLine("Pipe Click!");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -146,9 +137,8 @@ namespace LogicPuzzleGame
             Console.WriteLine("Anchor point: {0} and {1}", tank.AnchorPointLeft, tank.AnchorPointRight);
         }
 
-        private void StartNewMI_Click(object sender, RoutedEventArgs e) {
-            this.Board.Width = 3;
-            this.Board.Height = 3;
+        private void btnNewTame_Click(object sender, RoutedEventArgs e) {
+            this.Board = new GameBoard(5, 5);
             this.Board.RandomSeed = (Int32) (DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             this.Board.GenerateBoard();
             RenderGameBoard();

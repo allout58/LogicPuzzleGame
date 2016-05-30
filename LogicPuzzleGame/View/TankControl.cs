@@ -51,12 +51,12 @@ namespace LogicPuzzleGame.View
 
         private void OnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
-            this.Background = null;
+            this.StrokeThickness -= 5;
         }
 
         private void OnMouseEnter(object sender, MouseEventArgs mouseEventArgs)
         {
-            this.Background = Brushes.Orange;
+            this.StrokeThickness += 5;
         }
 
         private void TankControlOld_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
