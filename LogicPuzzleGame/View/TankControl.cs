@@ -37,10 +37,6 @@ namespace LogicPuzzleGame.View
 
         public event RoutedEventHandler Click;
 
-        public Boolean IsRevealed {
-            get; private set;
-        }
-
         public TankControl() {
             InitializeContent();
 
@@ -49,7 +45,6 @@ namespace LogicPuzzleGame.View
             Click += OnClick;
             MouseEnter += OnMouseEnter;
             MouseLeave += OnMouseLeave;
-            this.IsRevealed = false;
             this.MinHeight = 30;
             this.MinWidth = 30;
         }
@@ -75,7 +70,8 @@ namespace LogicPuzzleGame.View
             Path path = new Path() {
                 Data =
                     Geometry.Parse(
-                        "M 31.863278 0.76313752 A 31.190374 9.308028 0 0 0 0.68770804 9.9815288 l -0.0156573 0 0 0.091657 0 0.03888 a 31.190374 9.308028 0 0 1 0.003131 -0.01666 31.190374 9.308028 0 0 0 31.18809626 9.285052 31.190374 9.308028 0 0 0 31.188095 -9.290606 31.190374 9.308028 0 0 1 0.0032 0.02222 l 0 -0.03888 0 -0.091657 -0.0094 0 A 31.190374 9.308028 0 0 0 31.863278 0.76313752 Z M 63.054504 10.11207 A 31.190374 9.308028 0 0 1 31.863278 19.419341 31.190374 9.308028 0 0 1 0.67205076 10.11207 l 0 43.889432 0 0.322187 0.0375768 0 A 31.190374 9.308028 0 0 0 31.863278 63.308773 31.190374 9.308028 0 0 0 63.001272 54.323689 l 0.05324 0 0 -0.322187 0 -43.889432 z"),
+                        " M 64 10 A 32 10 0 0 0 32 0 32 10 0 0 0 0.0 10 M 64 10 A 32 10 0 0 1 32 20 32 10 0 0 1 0.0 10 M 64 10 Z M 64 10 A 32 10 0 0 1 32 20 32 10 0 0 1 0.0 10 M 0.0 10  l 0 44 A 32 10 0 0 0 32 64 32 10 0 0 0 64 54 l 0 -44 m 0 10  z"
+                        ),
                 StrokeThickness = 5,
                 Stroke = Brushes.Black,
                 Fill = Brushes.Beige,
@@ -118,8 +114,8 @@ namespace LogicPuzzleGame.View
         }
 
         private void OnClick(object sender, EventArgs EventArgs) {
-            this.IsRevealed = true;
             this.IsEnabled = false;
+            this.Fill = this.Tank.IsDirty ? Brushes.SaddleBrown : Brushes.RoyalBlue;
         }
 
     }

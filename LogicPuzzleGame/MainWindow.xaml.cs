@@ -60,7 +60,6 @@ namespace LogicPuzzleGame
                     btns[i][j] = btn;
                     Tank t = Board[i][j];
                     btn.Tank = t;
-//                    btn.Content = "Tank (" + i + ", " + j + ") " + (t.IsDirty ? "Dirty" : "Clean");
                     btn.Brush = Brushes.Black;
                     btn.Fill = Brushes.Beige;
                     btn.StrokeThickness = 1;
