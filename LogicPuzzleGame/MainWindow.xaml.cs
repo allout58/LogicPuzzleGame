@@ -24,12 +24,18 @@ namespace LogicPuzzleGame
     public partial class MainWindow : Window
     {
         public GameBoard Board { get; set; }
+        public GameController Controller { get; private set; }
 
         public MainWindow() {
+            Controller = new GameController();
+            Controller.ScoreChanged += Controller_ScoreChanged;
             Board = new GameBoard(3, 3);
             Board.GenerateBoard();
             InitializeComponent();
+        }
 
+        private void Controller_ScoreChanged(object sender, EventArgs e) {
+            TxtBlockScore.Text = String.Format("Score: {0}", Controller.CurrentScore);
         }
 
         private TankControl[][] btns = new TankControl[3][];
@@ -69,6 +75,10 @@ namespace LogicPuzzleGame
                     btn.SetValue(Grid.ColumnProperty, j);
                     btn.SetValue(Grid.RowProperty, i);
                     btn.Click += TankClicked;
+                    if (j == 0 || j == Board.Width + 1) {
+                        btn.IsVisible = true;
+                        btn.IsEnabled = false;
+                    }
                     MainGrid.Children.Add(btn);
                 }
             }
@@ -110,9 +120,8 @@ namespace LogicPuzzleGame
             }
         }
 
-        private void EdgeOnClick(object sender, RoutedEventArgs routedEventArgs)
-        {
-            Console.WriteLine("Pipe Click!");
+        private void EdgeOnClick(object sender, RoutedEventArgs routedEventArgs) {
+            Controller.PipeClick();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -122,19 +131,7 @@ namespace LogicPuzzleGame
 
         private void TankClicked(object sender, RoutedEventArgs e) {
             TankControl tank = sender as TankControl;
-            Console.WriteLine("Tank Inputs");
-            foreach (Pipe pipe in tank.Tank.Inputs) {
-                Console.WriteLine(pipe);
-            }
-            Console.WriteLine("");
-
-            Console.WriteLine("Tank Ouputs");
-            foreach (Pipe pipe in tank.Tank.Outputs) {
-                Console.WriteLine(pipe);
-            }
-            Console.WriteLine("");
-
-            Console.WriteLine("Anchor point: {0} and {1}", tank.AnchorPointLeft, tank.AnchorPointRight);
+            Controller.TankClick(tank.Tank);
         }
 
         private void btnNewTame_Click(object sender, RoutedEventArgs e) {

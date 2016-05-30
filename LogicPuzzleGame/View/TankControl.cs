@@ -30,6 +30,17 @@ namespace LogicPuzzleGame.View
         public static readonly DependencyProperty FillProperty = DependencyProperty.Register("Fill", typeof(Brush), typeof(TankControl), new FrameworkPropertyMetadata(default(Brush)));
         public Brush Fill { get { return (Brush) this.GetValue(FillProperty); } set { this.SetValue(FillProperty, value); } }
 
+        private Brush oldFill;
+
+        private bool isVis = false;
+        public bool IsVisible {
+            get { return isVis; }
+            set
+            {
+                isVis = value;
+                this.Fill = isVis ? (this.Tank.IsDirty ? Brushes.SaddleBrown : Brushes.RoyalBlue) : oldFill;
+            }
+        }
 
         public Tank Tank {
             get; set;
@@ -49,19 +60,16 @@ namespace LogicPuzzleGame.View
             this.MinWidth = 30;
         }
 
-        private void OnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
-        {
+        private void OnMouseLeave(object sender, MouseEventArgs mouseEventArgs) {
             this.StrokeThickness -= 5;
         }
 
-        private void OnMouseEnter(object sender, MouseEventArgs mouseEventArgs)
-        {
+        private void OnMouseEnter(object sender, MouseEventArgs mouseEventArgs) {
             this.StrokeThickness += 5;
         }
 
         private void TankControlOld_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (IsEnabled && Click != null)
-            {
+            if (IsEnabled && Click != null) {
                 Click(this, new RoutedEventArgs(e.RoutedEvent));
             }
         }
@@ -97,16 +105,15 @@ namespace LogicPuzzleGame.View
         private void OnLayoutUpdated(object sender, EventArgs eventArgs) {
             Path p = this.Content as Path;
             Visual v = this.Parent as Visual;
-            if (v != null)
-            {
+            if (v != null) {
                 p.TransformToVisual(v);
             }
             Size size = p.RenderSize;
             Size parentSize = RenderSize;
-            double center = parentSize.Width/2;
+            double center = parentSize.Width / 2;
             Point ofsL = new Point(center - size.Width / 2, size.Height / 2);
             Point ofsR = new Point(center + size.Width / 2, size.Height / 2);
-            
+
             if (v != null) {
                 AnchorPointLeft = TransformToVisual(v).Transform(ofsL);
                 AnchorPointRight = TransformToVisual(v).Transform(ofsR);
@@ -115,6 +122,7 @@ namespace LogicPuzzleGame.View
 
         private void OnClick(object sender, EventArgs EventArgs) {
             this.IsEnabled = false;
+            this.oldFill = this.Fill;
             this.Fill = this.Tank.IsDirty ? Brushes.SaddleBrown : Brushes.RoyalBlue;
         }
 
