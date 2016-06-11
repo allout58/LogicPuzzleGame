@@ -114,8 +114,8 @@ namespace LogicPuzzleGame.View
             Size size = p.RenderSize;
             Size parentSize = RenderSize;
             double center = parentSize.Width / 2;
-            Point ofsL = new Point(center - size.Width / 2, size.Height / 2);
-            Point ofsR = new Point(center + size.Width / 2, size.Height / 2);
+            Point ofsL = new Point(center - size.Width / 2, parentSize.Height / 2);
+            Point ofsR = new Point(center + size.Width / 2, parentSize.Height / 2);
 
             if (v != null) {
                 AnchorPointLeft = TransformToVisual(v).Transform(ofsL);
