@@ -29,9 +29,15 @@ namespace LogicPuzzleGame
         public MainWindow() {
             Controller = new GameController();
             Controller.ScoreChanged += Controller_ScoreChanged;
+            Controller.Win += Controller_Win;
             Board = new GameBoard(3, 3);
             Board.GenerateBoard();
             InitializeComponent();
+        }
+
+        private void Controller_Win(object sender, EventArgs e) {
+            LockBoard();
+            MessageBox.Show("Winner!");
         }
 
         private void Controller_ScoreChanged(object sender, EventArgs e) {
@@ -39,6 +45,7 @@ namespace LogicPuzzleGame
         }
 
         private TankControl[][] btns = new TankControl[3][];
+        private List<PipeControl> pipes = new List<PipeControl>();
 
         private void RenderGameBoard() {
             MainGrid.RowDefinitions.Clear();
@@ -75,6 +82,7 @@ namespace LogicPuzzleGame
                     btn.SetValue(Grid.ColumnProperty, j);
                     btn.SetValue(Grid.RowProperty, i);
                     btn.Click += TankClicked;
+                    btn.MouseRightButtonDown += Btn_MouseRightButtonDown;
                     if (j == 0 || j == Board.Width + 1) {
                         btn.IsVisible = true;
                         btn.IsEnabled = false;
@@ -111,6 +119,7 @@ namespace LogicPuzzleGame
 
                                 edge.Click += EdgeOnClick;
 
+                                pipes.Add(edge);
 
                                 MainGrid.Children.Add(edge);
                             }
@@ -118,6 +127,11 @@ namespace LogicPuzzleGame
                     }
                 }
             }
+        }
+
+        private void Btn_MouseRightButtonDown(object sender, MouseButtonEventArgs e) {
+            TankControl tank = sender as TankControl;
+            tank.MarkAsDirty();
         }
 
         private void EdgeOnClick(object sender, RoutedEventArgs routedEventArgs) {
@@ -135,10 +149,23 @@ namespace LogicPuzzleGame
         }
 
         private void btnNewTame_Click(object sender, RoutedEventArgs e) {
+            Controller.NewGame();
             this.Board = new GameBoard(5, 5);
             this.Board.RandomSeed = (Int32) (DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            TxtBlockSeed.Text = String.Format("Seed: {0}", this.Board.RandomSeed);
             this.Board.GenerateBoard();
             RenderGameBoard();
+        }
+
+        private void LockBoard() {
+            for (int i = 0; i < Board.Height; i++) {
+                for (int j = 1; j < Board.Width + 2; j++) {
+                    btns[i][j].IsEnabled = false;
+                }
+            }
+            foreach (PipeControl pipe in pipes) {
+                pipe.IsEnabled = false;
+            }
         }
     }
 }

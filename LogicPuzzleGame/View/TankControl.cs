@@ -32,11 +32,12 @@ namespace LogicPuzzleGame.View
 
         private Brush oldFill;
 
+        private int MarkedStatus = 0;
+
         private bool isVis = false;
         public bool IsVisible {
             get { return isVis; }
-            set
-            {
+            set {
                 isVis = value;
                 this.Fill = isVis ? (this.Tank.IsDirty ? Brushes.SaddleBrown : Brushes.RoyalBlue) : oldFill;
             }
@@ -61,16 +62,18 @@ namespace LogicPuzzleGame.View
         }
 
         private void OnMouseLeave(object sender, MouseEventArgs mouseEventArgs) {
-            this.StrokeThickness -= 5;
+            if (this.MarkedStatus == 0)
+                this.StrokeThickness -= 5;
         }
 
         private void OnMouseEnter(object sender, MouseEventArgs mouseEventArgs) {
-            this.StrokeThickness += 5;
+            if (this.MarkedStatus == 0)
+                this.StrokeThickness += 5;
         }
 
         private void TankControlOld_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (IsEnabled && Click != null) {
-                Click(this, new RoutedEventArgs(e.RoutedEvent));
+            if (e.LeftButton == MouseButtonState.Pressed && MarkedStatus > 0 && IsEnabled) {
+                Click?.Invoke(this, new RoutedEventArgs(e.RoutedEvent));
             }
         }
 
@@ -124,6 +127,25 @@ namespace LogicPuzzleGame.View
             this.IsEnabled = false;
             this.oldFill = this.Fill;
             this.Fill = this.Tank.IsDirty ? Brushes.SaddleBrown : Brushes.RoyalBlue;
+        }
+
+        public void MarkAsDirty() {
+
+            this.MarkedStatus = (MarkedStatus + 1) % 3;
+            switch (this.MarkedStatus) {
+                case 0:
+                    this.Fill = this.oldFill;
+                    this.StrokeThickness -= 2;
+                    break;
+                case 1:
+                    this.oldFill = this.Fill;
+                    this.Fill = Brushes.DeepSkyBlue;
+                    this.StrokeThickness += 2;
+                    break;
+                case 2:
+                    this.Fill = Brushes.SandyBrown;
+                    break;
+            }
         }
 
     }

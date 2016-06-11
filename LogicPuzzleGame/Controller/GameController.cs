@@ -14,6 +14,8 @@ namespace LogicPuzzleGame.Controller
 
         private int curScore = 0;
 
+        public event EventHandler Win;
+
         public int CurrentScore {
             get { return curScore; }
             private set {
@@ -32,12 +34,16 @@ namespace LogicPuzzleGame.Controller
         public void TankClick(Tank tank) {
             CurrentScore += TANK_COST;
             if (tank is DirtyTank) {
-                Console.WriteLine("Winner!!! Score: {0}", CurrentScore);
+                Win?.Invoke(this, new EventArgs());
             }
         }
 
         public void PipeClick() {
             CurrentScore += PIPE_COST;
+        }
+
+        public void NewGame() {
+            CurrentScore = 0;
         }
     }
 }
