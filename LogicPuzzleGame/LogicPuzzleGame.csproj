@@ -61,6 +61,9 @@
     </ApplicationDefinition>
     <Compile Include="Controller\GameController.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="View\NewGame.xaml.cs">
+      <DependentUpon>NewGame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PipeControl.cs" />
     <Compile Include="View\TankControl.cs" />
     <Page Include="MainWindow.xaml">
@@ -76,6 +79,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\NewGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\DirtyTank.cs" />

@@ -72,7 +72,7 @@ namespace LogicPuzzleGame.View
         }
 
         private void TankControlOld_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed && MarkedStatus > 0 && IsEnabled) {
+            if (e.LeftButton == MouseButtonState.Pressed && MarkedStatus == 0 && IsEnabled) {
                 Click?.Invoke(this, new RoutedEventArgs(e.RoutedEvent));
             }
         }

@@ -1,0 +1,21 @@
+﻿<Window x:Class="LogicPuzzleGame.View.NewGame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LogicPuzzleGame.View"
+        mc:Ignorable="d"
+        Title="New Game" Height="247.881" Width="246.61" Topmost="True" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Label x:Name="label" Content="Width" HorizontalAlignment="Left" Margin="16,51,0,0" VerticalAlignment="Top" Height="23"/>
+        <Label x:Name="label1" Content="Height" HorizontalAlignment="Left" Margin="16,91,0,0" VerticalAlignment="Top" Height="35"/>
+        <Label x:Name="label2" Content="Seed" HorizontalAlignment="Left" Margin="22,131,0,0" VerticalAlignment="Top" Height="23"/>
+        <TextBox x:Name="textBoxWidth" HorizontalAlignment="Left" Height="23" Margin="84,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="textBoxWidth_PreviewTextInput"/>
+        <TextBox x:Name="textBoxHeight" HorizontalAlignment="Left" Height="23" Margin="84,91,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="textBoxHeight_PreviewTextInput"/>
+        <TextBox x:Name="textBoxSeed" HorizontalAlignment="Left" Height="23" Margin="84,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="buttonNewGame" Content="Start New Game" HorizontalAlignment="Left" Margin="22,176,0,0" VerticalAlignment="Top" Width="117" Click="buttonNewGame_Click"/>
+        <Button x:Name="button" Content="Cancel" HorizontalAlignment="Left" Margin="148,176,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Please fill in the values below to configure a new game" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

@@ -149,12 +149,17 @@ namespace LogicPuzzleGame
         }
 
         private void btnNewTame_Click(object sender, RoutedEventArgs e) {
-            Controller.NewGame();
-            this.Board = new GameBoard(5, 5);
-            this.Board.RandomSeed = (Int32) (DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            TxtBlockSeed.Text = String.Format("Seed: {0}", this.Board.RandomSeed);
-            this.Board.GenerateBoard();
-            RenderGameBoard();
+            NewGame newGame = new NewGame();
+            newGame.ShowDialog();
+            if (newGame.DialogResult == true)
+            {
+                Controller.NewGame();
+                this.Board = new GameBoard(newGame.GameWidth, newGame.GameHeight);
+                this.Board.RandomSeed = newGame.Seed;
+                TxtBlockSeed.Text = String.Format("Seed: {0}", this.Board.RandomSeed);
+                this.Board.GenerateBoard();
+                RenderGameBoard();
+            }
         }
 
         private void LockBoard() {
